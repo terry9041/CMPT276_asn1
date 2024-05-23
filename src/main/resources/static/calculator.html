@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Calculator</title>
+    <link rel="stylesheet" href="css/calculator.css" />
+     <script src="js/calculator.js"></script> 
+  </head>
+  <body>
+    <div class="outer-container">
+      <div class="inner-container">
+        <div class="title">Grade Calculator</div>
+        <div id="grey-container">
+          <div class="red-title">Activities</div>
+          <div class = "description">Give grades to the numeric activities:</div>
+          <table>
+            <tr>
+              <th>Name</td>
+              <th>Short Name</th>
+              <th>Weight</th>
+              <th>Grade</th>
+              <th>Percent</th>
+            </tr>
+            </table>
+          <button onclick="addRow()" id="rowButton">ADD ROW</button>
+          <div class="red-title" id = "results-table">
+            <div>Result</div>
+            <div id = "result">  </div>
+        </div>
+          <div class="red-buttons">
+            <button id = "weightedButton" onclick="calculateFinalWeighted()">WEIGHTED</button>
+            <button id = "meanButton" onclick="calculateFinalMean()">MEAN</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
