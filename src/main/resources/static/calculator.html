@@ -15,15 +15,21 @@
           <div class="red-title">Activities</div>
           <div class = "description">Give grades to the numeric activities:</div>
           <table>
-            <tr>
+            <thead>
               <th>Name</td>
               <th>Short Name</th>
               <th>Weight</th>
               <th>Grade</th>
               <th>Percent</th>
-            </tr>
-            </table>
-          <button onclick="addRow()" id="rowButton">ADD ROW</button>
+            </thead>
+            <tbody>
+
+            </tbody>
+          </table>
+            <div class = "grey-buttons">
+              <button id="addButton">ADD ROW</button>
+              <button id="removeButton">REMOVE ROW</button>
+            </div>
           <div class="red-title" id = "results-table">
             <div>Result</div>
             <div id = "result">  </div>
