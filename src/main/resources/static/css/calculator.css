@@ -7,6 +7,10 @@ body {
   flex-direction: column;
 }
 
+h2 {
+  font-size: 1.3rem;
+}
+
 .grey-container {
   display: flex;
   flex-direction: row;
@@ -16,6 +20,7 @@ body {
   background-color: #3d3935;
   padding-top: 1.5%;
   padding-bottom: 4%;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Add this line */
 }
 
 .inner-container {
@@ -36,7 +41,6 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 1.7rem;
   font-weight: 500;
-  border-bottom: 0.3rem;
 }
 
 #grey-container {
@@ -79,11 +83,6 @@ body {
   font-size: 0.8rem;
   font-weight: 530;
   cursor: pointer;
-}
-
-.description {
-  padding-top: 15px;
-  padding-bottom: 15px;
 }
 
 table {
