@@ -8,19 +8,21 @@
      <script src="js/calculator.js"></script> 
   </head>
   <body>
-    <div class="outer-container">
+    <section class="outer-container">
       <div class="inner-container">
-        <div class="title">Grade Calculator</div>
-        <div id="grey-container">
-          <div class="red-title">Activities</div>
-          <div class = "description">Give grades to the numeric activities:</div>
+        <header class="title">Grade Calculator</header>
+        <section id="grey-container">
+          <h2 class="red-title">Activities</h2>
+          <p class = "description">Give grades to the numeric activities:</p>
           <table>
             <thead>
-              <th>Name</td>
-              <th>Short Name</th>
-              <th>Weight</th>
-              <th>Grade</th>
-              <th>Percent</th>
+              <tr>
+                <th>Name</td>
+                <th>Short Name</th>
+                <th>Weight</th>
+                <th>Grade</th>
+                <th>Percent</th>
+              </tr>
             </thead>
             <tbody>
 
@@ -30,17 +32,17 @@
               <button id="addButton">ADD ROW</button>
               <button id="removeButton">REMOVE ROW</button>
             </div>
-          <div class="red-title" id = "results-table">
-            <div>Result</div>
+            <section id = "results">
+          <h2 class="red-title" id = "results-table">Result</h2>
             <div id = "result">  </div>
-        </div>
+              </section>
           <div class="red-buttons">
             <button id = "weightedButton" onclick="calculateFinalWeighted()">WEIGHTED</button>
             <button id = "meanButton" onclick="calculateFinalMean()">MEAN</button>
           </div>
-        </div>
+        </section>
       </div>
-    </div>
+    </section>
   </body>
 </html>
 
