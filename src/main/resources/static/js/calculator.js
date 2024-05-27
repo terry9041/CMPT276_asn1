@@ -1,7 +1,16 @@
-let activityCounter = 1;
+let activityCounter = 0;
+
+function removeRow() {
+  let tbody = document.querySelector("tbody");
+  if (tbody.hasChildNodes()) {
+    tbody.removeChild(tbody.lastChild);
+    activityCounter -= 1;
+  }
+}
 
 function addRow() {
-  let tbody = document.querySelector("table");
+  activityCounter += 1;
+  let tbody = document.querySelector("tbody");
   let row = document.createElement("tr");
 
   let name = document.createElement("td");
@@ -14,6 +23,7 @@ function addRow() {
   let weightInput = document.createElement("input");
   weightInput.type = "number";
   weightInput.id = "weight" + activityCounter;
+  weightInput.min = 0;
   weight.appendChild(weightInput);
 
   let grade = document.createElement("td");
@@ -21,6 +31,7 @@ function addRow() {
   let numeratorInput = document.createElement("input");
   numeratorInput.type = "number";
   numeratorInput.id = "numeratorInput" + activityCounter;
+  numeratorInput.min = 0;
   grade.appendChild(numeratorInput);
 
   grade.appendChild(document.createTextNode(" / ")); // Use text node directly
@@ -28,6 +39,7 @@ function addRow() {
   let denominatorInput = document.createElement("input");
   denominatorInput.type = "number";
   denominatorInput.id = "denominatorInput" + activityCounter;
+  denominatorInput.min = 1;
   grade.appendChild(denominatorInput);
 
   let percent = document.createElement("td");
@@ -48,7 +60,6 @@ function addRow() {
     .forEach(function (input) {
       input.addEventListener("input", updatePercentage);
     });
-  activityCounter += 1;
 }
 
 function updatePercentage() {
@@ -81,7 +92,7 @@ function updatePercentage() {
     denominator <= 0
   ) {
     // If either numerator or denominator is not a valid number, set percentage to empty string
-    document.getElementById(percentCellId).textContent = "";
+    document.getElementById(percentCellId).textContent = "Invalid score input";
     return; // Exit early to prevent further processing
   }
 
@@ -92,72 +103,72 @@ function updatePercentage() {
 }
 
 function calculateFinalMean() {
-  console.log("mean");
-  let percentages = document.querySelectorAll("[id ^= 'percent']");
-  let count = 0;
-  let sum = 0;
-
-  for (let i = 0; i < percentages.length; i++) {
-    const percentage = percentages[i].textContent;
-    // 1 check => percentage must be non-empty
-    if (percentage != "") {
-      console.log(count);
-      console.log(parseFloat(percentage.slice(0, -1)));
-      count += 1;
-      sum += parseFloat(percentage.slice(0, -1));
-    } else {
-      // stop if there is empty percent
-      let result = document.getElementById("result");
-      result.innerHTML = "";
-      return;
-    }
-  }
-
-  if (count === 0) {
-    let result = document.getElementById("result");
-    result.innerHTML = "";
+  if (activityCounter === 0) {
+    document.getElementById("result").innerHTML =
+      "Please add the activity data";
     return;
   }
+  let rows = document.querySelectorAll("tbody tr");
+  let sum = 0;
+  for (let i = 0; i < rows.length; i++) {
+    const percent = rows[i].querySelector("[id^='percent']").innerHTML;
+    // 2 checks
+    // 1. percentage must not be Invalid score input (if non empty then it's a valid percentage, safeguarded by updatePercentage)
+    // 2. percentage must be non empty
+    if (percent == "Invalid score input") {
+      document.getElementById("result").innerHTML =
+        "Invalid score input at row " + (i + 1);
+      return;
+    }
+    if (percent == "") {
+      document.getElementById("result").innerHTML =
+        "Please remove row " + (i + 1);
+      return;
+    }
 
-  let mean = sum / count;
+    sum += parseFloat(percent.slice(0, -1));
+  }
+  let weighted = sum / activityCounter;
   let result = document.getElementById("result");
-  result.innerHTML = mean.toFixed(2) + "%";
+  result.innerHTML = weighted.toFixed(2) + "%";
 }
 
 function calculateFinalWeighted() {
-  console.log("weighted");
-  let percentages = document.querySelectorAll("[id ^= 'percent']");
-  let weights = document.querySelectorAll("input[type='number'][id^='weight']");
-
-  let count = 0;
-  let sum = 0;
-  for (let i = 0; i < percentages.length; i++) {
-    const percentage = percentages[i].textContent;
-    const weight = parseInt(weights[i].value);
-    // 3 checks
-    // 1. percentage must be non-empty (if non empty then it's a valid percentage, safeguarded by updatePercentage)
-    // 2. weight must be non-empty => int(weight) != NaN
-    // 3. weight cannot be negative, but can be 0
-    if (percentage != "" && !isNaN(weight) && !(weight < 0)) {
-      console.log("weight: " + weight);
-      console.log("weighted: " + parseFloat(percentage.slice(0, -1)) * weight);
-      count += weight;
-      sum += parseFloat(percentage.slice(0, -1)) * weight;
-      console.log("count: " + count);
-    } else {
-      // stop if there is empty percent or weight
-      let result = document.getElementById("result");
-      result.innerHTML = "";
-      return;
-    }
-  }
-
-  if (count === 0) {
-    let result = document.getElementById("result");
-    result.innerHTML = "";
+  console.log(activityCounter);
+  if (activityCounter === 0) {
+    document.getElementById("result").innerHTML =
+      "Please add the activity data";
     return;
   }
+  let rows = document.querySelectorAll("tbody tr");
+  let count = 0;
+  let sum = 0;
+  for (let i = 0; i < rows.length; i++) {
+    const percent = rows[i].querySelector("[id^='percent']").innerHTML;
+    const weight = parseInt(rows[i].querySelector("[id^='weight']").value);
+    // 3 checks
+    // 1. percentage must not be Invalid score input (if non empty then it's a valid percentage, safeguarded by updatePercentage)
+    // 2. weight must be non-empty => int(weight) != NaN
+    // 3. weight cannot be negative, but can be 0
+    if (percent == "Invalid score input") {
+      document.getElementById("result").innerHTML =
+        "Invalid score input at row " + (i + 1);
+      return;
+    }
+    if (isNaN(weight)) {
+      document.getElementById("result").innerHTML =
+        "Empty weight at row " + (i + 1);
+      return;
+    }
+    if (weight < 0) {
+      document.getElementById("result").innerHTML =
+        "Invalid weight at row " + (i + 1);
+      return;
+    }
 
+    count += weight;
+    sum += parseFloat(percent.slice(0, -1)) * weight;
+  }
   let weighted = sum / count;
   let result = document.getElementById("result");
   result.innerHTML = weighted.toFixed(2) + "%";
@@ -170,6 +181,9 @@ function addEventListeners() {
   gradeInputs.forEach(function (input) {
     input.addEventListener("input", updatePercentage);
   });
+
+  document.getElementById("removeButton").addEventListener("click", removeRow);
+  document.getElementById("addButton").addEventListener("click", addRow);
   document
     .getElementById("meanButton")
     .addEventListener("click", calculateFinalMean);
@@ -177,13 +191,11 @@ function addEventListeners() {
   document
     .getElementById("weightedButton")
     .addEventListener("click", calculateFinalWeighted);
+  console.log("added");
 }
-
-window.onload = function () {
-  addRow();
-  addRow();
-};
 
 document.addEventListener("DOMContentLoaded", function () {
   addEventListeners();
+  addRow();
+  addRow();
 });
