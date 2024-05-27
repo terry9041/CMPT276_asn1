@@ -7,6 +7,11 @@ body {
   flex-direction: column;
 }
 
+.grey-container {
+  display: flex;
+  flex-direction: row;
+}
+
 .outer-container {
   background-color: #3d3935;
   padding-top: 1.5%;
