@@ -84,6 +84,12 @@ function updatePercentage() {
   // 3) the score obtained must be lower than full score
   // 4) the score obtained (numrator) must not be negative, but can be negative
   // 5) the full score must be positive => must not be negative or zero
+  if (isNaN(numerator) || isNaN(denominator)) {
+    // If either numerator or denominator is not a valid number, set percentage to empty string
+    document.getElementById(percentCellId).textContent = "";
+    return; // Exit early to prevent further processing
+  }
+
   if (
     isNaN(numerator) ||
     isNaN(denominator) ||
