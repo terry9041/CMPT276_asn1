@@ -128,7 +128,7 @@ function calculateFinalMean() {
     }
     if (percent == "") {
       document.getElementById("result").innerHTML =
-        "Please remove row " + (i + 1);
+        "Please remove row(s) with empty data";
       return;
     }
 
