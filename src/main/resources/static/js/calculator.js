@@ -1,6 +1,9 @@
 let activityCounter = 0;
 
 function removeRow() {
+  if (activityCounter <= 1) {
+    return;
+  }
   let tbody = document.querySelector("tbody");
   if (tbody.hasChildNodes()) {
     tbody.removeChild(tbody.lastChild);
